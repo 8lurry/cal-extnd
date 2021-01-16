@@ -50,11 +50,11 @@ then
 		n=1
 		for ARG in ${RIM[@]}
 		do
-			if [ $ARG -eq ${ARGS[0]} -o $ARG -eq ${ARGS[1]} -o $ARG -eq ${ARGS[2]} ]
+			if [ $ARG -eq ${ARGS[0]} -o $ARG -eq ${ARGS[2]} ]
 			then
 				#dosomethimg
-				l=${RIM[$n+1]}
-				ENDDAY=`expr $l + $TODAY`
+				days=${RIM[$n+1]}
+				l=`expr $TODAY + $days`
 				month=$THISMONTH
 				day=$TODAY
 				year=$THISYEAR
@@ -146,14 +146,21 @@ then
 						fi
 					fi
 				done
-				days=$l
-				elif [ $l -ge 30 ]
-				then
-
+				ENDDAY=$l
+				ENDMONTH=$MONTH
+				ENDYEAR=$YEAR
 				while read line
 				do
 					#dosomething
-					
+					d=${line:0:2}
+					m=${line:2:2}
+					y=`sed -e p/^[0-9]+$ $line`
+					if [  ]
+					then
+						#dosomething
+						#counter
+					fi
+
 				done < 'calfile'
 			elif [ $ARG -eq ${ARGS[1]} ]
 			then
