@@ -52,66 +52,46 @@ then
 		do
 			if [ $ARG -eq ${ARGS[0]} -o $ARG -eq ${ARGS[2]} ]
 			then
-				#dosomethimg
-				days=${RIM[$n+1]}
-				l=`expr $TODAY + $days`
-				month=$THISMONTH
-				day=$TODAY
-				year=$THISYEAR
-				months=0
-				years=0
-				while
-				do
-					if [ $month == 1 -o $month == 3 -o $month == 5 -o $month == 7 -o $month == 8 -o $month == 10 -o $month == 12]
-					then
-						m=`expr $l % 31`
-						if [ $m == 0 ]
+				if [ ${RIM[` $n + 1 `]} =~ ^[0-9]+$ ]
+				then
+					#dosomethimg
+					days=${RIM[` $n + 1 `]}
+					l=`expr $TODAY + $days`
+					month=$THISMONTH
+					day=$TODAY
+					year=$THISYEAR
+					months=0
+					years=0
+					while
+					do
+						if [ $month == 1 -o $month == 3 -o $month == 5 -o $month == 7 -o $month == 8 -o $month == 10 -o $month == 12]
 						then
-							break
-						fi
-						l=`expr $l - 31`
-						months=`expr $months + 1`
-						if [ $months == 12 ]
-						then
-							years=`expr $years + 1`
-							months=0
-						fi
-						month=`expr $month + 1`
-						if [ $month == 13 ]
-						then
-							year=`expr $year + 1`
-							month=1
-						fi
-					elif [ $month == 4 -o $month == 6 -o $month == 9 -o $month == 11]
-					then
-						m=`expr $l % 30`
-						if [ $m == 0 ]
-						then
-							break
-						fi
-						l=`expr $l - 30`
-						months=`expr $months + 1`
-						if [ $months == 12 ]
-						then
-							years=`expr $years + 1`
-							months=0
-						fi
-						month=`expr $month + 1`
-						if [ $month == 13 ]
-						then
-							year=`expr $year + 1`
-							month=1
-						fi
-					else
-						leaf=`expr $year % 4`
-						if [ $leaf == 0 ]
-						then
-							m=`expr $l % 29`
+							m=`expr $l % 31`
 							if [ $m == 0 ]
 							then
 								break
 							fi
-							l=`expr $l - 29`
+							l=`expr $l - 31`
+							months=`expr $months + 1`
+							if [ $months == 12 ]
+							then
+								years=`expr $years + 1`
+								months=0
+							fi
+							month=`expr $month + 1`
+							if [ $month == 13 ]
+							then
+								year=`expr $year + 1`
+								month=1
+							fi
+						elif [ $month == 4 -o $month == 6 -o $month == 9 -o $month == 11]
+						then
+							m=`expr $l % 30`
+							if [ $m == 0 ]
+							then
+								break
+							fi
+							l=`expr $l - 30`
 							months=`expr $months + 1`
 							if [ $months == 12 ]
 							then
@@ -125,32 +105,54 @@ then
 								month=1
 							fi
 						else
-							m=`expr $l % 28`
-							if [ $m == 0]
+							leaf=`expr $year % 4`
+							if [ $leaf == 0 ]
 							then
-								break
-							fi
-							l=`expr $l - 28`
-							months=`expr $months + 1`
-							if [ $months == 12 ]
-							then
-								years=`expr $years + 1`
-								months=0
-							fi
-							month=`expr $month + 1`
-							if [ $month == 13 ]
-							then
-								year=`expr $year + 1`
-								month=1
+								m=`expr $l % 29`
+								if [ $m == 0 ]
+								then
+									break
+								fi
+								l=`expr $l - 29`
+								months=`expr $months + 1`
+								if [ $months == 12 ]
+								then
+									years=`expr $years + 1`
+									months=0
+								fi
+								month=`expr $month + 1`
+								if [ $month == 13 ]
+								then
+									year=`expr $year + 1`
+									month=1
+								fi
+							else
+								m=`expr $l % 28`
+								if [ $m == 0]
+								then
+									break
+								fi
+								l=`expr $l - 28`
+								months=`expr $months + 1`
+								if [ $months == 12 ]
+								then
+									years=`expr $years + 1`
+									months=0
+								fi
+								month=`expr $month + 1`
+								if [ $month == 13 ]
+								then
+									year=`expr $year + 1`
+									month=1
+								fi
 							fi
 						fi
-					fi
-				done
-				ENDDAY=$l
-				ENDMONTH=$MONTH
-				ENDYEAR=$YEAR
-				while read line
-				do
+					done
+					ENDDAY=$l
+					ENDMONTH=$MONTH
+					ENDYEAR=$YEAR
+					while read line
+					do
 					#dosomething
 					d=${line:0:2}
 					m=${line:2:2}
@@ -161,7 +163,8 @@ then
 						#counter
 					fi
 
-				done < 'calfile'
+					done < 'calfile'
+				fi
 			elif [ $ARG -eq ${ARGS[1]} ]
 			then
 				#dosomething
